@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ListTodo, PlusCircle, Trash } from "lucide-react";
 
-const TaskAction = ({ onViewTasks, onAddTask, onDeleteTask }) => {
+const TaskAction = ({ onAddClick }) => {
   return (
     <div className="w-full flex justify-center mt-10 px-4">
       <motion.div
@@ -14,7 +14,7 @@ const TaskAction = ({ onViewTasks, onAddTask, onDeleteTask }) => {
       >
         {/* Your Tasks */}
         <button
-          onClick={onViewTasks}
+        //   onClick={onViewTasks}
           className="flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 transition font-medium"
         >
           <ListTodo size={20} />
@@ -23,7 +23,7 @@ const TaskAction = ({ onViewTasks, onAddTask, onDeleteTask }) => {
 
         {/* Add Task */}
         <button
-          onClick={onAddTask}
+          onClick={onAddClick}
           className="flex items-center gap-2 bg-green-600 text-white px-5 py-3 rounded-xl hover:bg-green-700 transition font-medium"
         >
           <PlusCircle size={20} />
@@ -32,7 +32,7 @@ const TaskAction = ({ onViewTasks, onAddTask, onDeleteTask }) => {
 
         {/* Delete Task */}
         <button
-          onClick={onDeleteTask}
+        //   onClick={onDeleteTask}
           className="flex items-center gap-2 bg-red-600 text-white px-5 py-3 rounded-xl hover:bg-red-700 transition font-medium"
         >
           <Trash size={20} />

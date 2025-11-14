@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
-import { Star, Pencil, Trash2 } from "lucide-react";
+import { Star } from "lucide-react";
 
-const TaskList = ({ tasks = [], onEdit, onDelete }) => {
+const TaskList = ({ tasks }) => {
   return (
     <div className="mt-10 px-4">
       <motion.div
@@ -20,7 +20,7 @@ const TaskList = ({ tasks = [], onEdit, onDelete }) => {
               <th className="py-3 px-4 text-left">Description</th>
               <th className="py-3 px-4 text-left">Tag</th>
               <th className="py-3 px-4 text-left">Priority</th>
-              <th className="py-3 px-4 text-left">Actions</th>
+              <th className="py-3 px-4 text-left">Option</th>
             </tr>
           </thead>
 
@@ -35,20 +35,29 @@ const TaskList = ({ tasks = [], onEdit, onDelete }) => {
                 </td>
               </tr>
             ) : (
-              tasks.map((task, index) => (
+              tasks.map((task) => (
                 <tr
                   key={task.id}
                   className="border-b hover:bg-gray-50 transition"
                 >
                   {/* Star */}
                   <td className="py-3 px-4">
-                    <button className="text-yellow-500 hover:scale-110 transition">
-                      <Star size={20} />
+                    <button className="hover:scale-110 transition">
+                      {task.isFavourite ? (
+                        <Star
+                          className="text-yellow-400 fill-yellow-400"
+                          size={20}
+                        />
+                      ) : (
+                        <Star className="text-gray-400" size={20} />
+                      )}
                     </button>
                   </td>
 
                   {/* Title */}
-                  <td className="py-3 px-4 font-semibold">{task.title}</td>
+                  <td className="py-3 px-4 font-semibold text-black">
+                    {task.title}
+                  </td>
 
                   {/* Description */}
                   <td className="py-3 px-4 text-gray-700">
@@ -57,8 +66,8 @@ const TaskList = ({ tasks = [], onEdit, onDelete }) => {
 
                   {/* Tag */}
                   <td className="py-3 px-4">
-                    <span className="px-3 py-1 bg-gray-200 rounded-full text-sm font-medium">
-                      {task.tag}
+                    <span className="px-3 py-1 bg-green-500 rounded-full text-sm font-medium">
+                      {task.tag.join(", ")}
                     </span>
                   </td>
 
@@ -66,33 +75,24 @@ const TaskList = ({ tasks = [], onEdit, onDelete }) => {
                   <td className="py-3 px-4">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold
-                      ${
-                        task.priority === "High"
-                          ? "bg-red-500 text-white"
-                          : task.priority === "Medium"
-                          ? "bg-yellow-400 text-black"
-                          : "bg-green-500 text-white"
-                      }`}
+                        ${
+                          task.priority === "High"
+                            ? "bg-red-500 text-white"
+                            : task.priority === "Medium"
+                            ? "bg-yellow-400 text-black"
+                            : "bg-green-500 text-white"
+                        }`}
                     >
                       {task.priority}
                     </span>
                   </td>
-
-                  {/* Actions */}
-                  <td className="py-3 px-4 flex gap-3">
-                    <button
-                      onClick={() => onEdit(task.id)}
-                      className="text-blue-600 hover:scale-110 transition"
-                    >
-                      <Pencil size={20} />
+                  <td className="flex  gap-3">
+                    <button className="text-blue-600 hover:underline">
+                      Edit
                     </button>
-
-                    <button
-                      onClick={() => onDelete(task.id)}
-                      className="text-red-600 hover:scale-110 transition"
-                    >
-                      <Trash2 size={20} />
-                    </button>
+                    <button className="text-blue-600 hover:underline">
+                      Delete
+                     </button>
                   </td>
                 </tr>
               ))
