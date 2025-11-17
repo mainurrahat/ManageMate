@@ -2,46 +2,36 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AddTaskModal = ({ isOpen, onClose, onAdd }) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
-  const [priority, setPriority] = useState("Medium");
-  const [isFavourite, setIsFavourite] = useState(false);
+const AddTaskModal = ({ onSave, onClose, TaskToUpdate }) => {
+  const [task, setTask] = useState(
+    TaskToUpdate || {
+      id: crypto.randomUUID(),
+      title: "",
+      description: "",
+      tags: [],
+      priority: "",
+      isFavourite: false,
+    }
+  );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [isAdd, setIsAdd] = useState(Object.is(TaskToUpdate, null));
 
-    if (!title || !description) {
-      alert("Please fill in title and description");
-      return;
+  const handleChange = (e) => {
+    const name = e.target.name;
+    let value = e.target.value;
+
+    if (name === "tags") {
+      value = value.split(",").map((t) => t.trim());
     }
 
-    const newTask = {
-      id: crypto.randomUUID(),
-      title,
-      description,
-      tag: tags.split(",").map((t) => t.trim()),
-      priority,
-      isFavourite,
-    };
-
-    onAdd(newTask);
-    toast.success("Task added successfully!"); // Trigger toast
-    onClose();
-
-    // Reset form
-    setTitle("");
-    setDescription("");
-    setTags("");
-    setPriority("Medium");
-    setIsFavourite(false);
+    setTask({
+      ...task,
+      [name]: value,
+    });
   };
-
-  if (!isOpen) return null;
 
   return (
     <>
@@ -61,50 +51,48 @@ const AddTaskModal = ({ isOpen, onClose, onAdd }) => {
             <X size={24} />
           </button>
 
-          <h2 className="text-xl font-bold mb-4">Add New Task</h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <h2 className="text-xl font-bold mb-4">
+            {isAdd ? "Add New Task" : "Edit Task"}
+          </h2>
+
+          <form className="flex flex-col gap-4">
             <input
               type="text"
               placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              value={task.title}
+              onChange={handleChange}
               className="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <textarea
               placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              value={task.description}
+              onChange={handleChange}
               className="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <input
               type="text"
               placeholder="Tags (comma separated)"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              name="tags"
+              value={task.tags.join(", ")}
+              onChange={handleChange}
               className="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
+              name="priority"
+              value={task.priority}
+              onChange={handleChange}
               className="border border-gray-700 rounded-lg px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
+              <option value="">Select Priority</option>
               <option value="High">High</option>
               <option value="Medium">Medium</option>
               <option value="Low">Low</option>
             </select>
-
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={isFavourite}
-                onChange={(e) => setIsFavourite(e.target.checked)}
-                className="w-4 h-4"
-              />
-              Mark as Favourite
-            </label>
 
             <div className="flex justify-end gap-3 mt-2">
               <button
@@ -116,16 +104,19 @@ const AddTaskModal = ({ isOpen, onClose, onAdd }) => {
               </button>
               <button
                 type="submit"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSave(task, isAdd);
+                }}
                 className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
               >
-                Add Task
+                Save Task
               </button>
             </div>
           </form>
         </motion.div>
       </div>
 
-      {/* Toast container */}
       <ToastContainer position="top-right" autoClose={3000} />
     </>
   );
