@@ -30,6 +30,15 @@ const TaskBoard = () => {
     setShowAddModal(true);
   };
 
+  const handleDeleteTask = (task) => {
+    const updatedTasks = tasks.filter((t) => t.id !== task.id);
+    setTasks(updatedTasks);
+  };
+
+  const handleDeleteAllClick = () => {
+    setTasks([]);
+  };
+
   const handleAddTask = (newTask, isAdd) => {
     if (isAdd) {
       setTasks([...tasks, newTask]);
@@ -58,8 +67,15 @@ const TaskBoard = () => {
       </div>
 
       <div className="rounded-2xl border px-6 py-8 md:px-9 md:py-16">
-        <TaskAction onAddClick={() => setShowAddModal(true)} />
-        <TaskList tasks={tasks} onEdit={handleEditTask} />
+        <TaskAction
+          onAddClick={() => setShowAddModal(true)}
+          onAllDeleteTask={handleDeleteAllClick}
+        />
+        <TaskList
+          tasks={tasks}
+          onEdit={handleEditTask}
+          onDelete={handleDeleteTask}
+        />
       </div>
     </div>
   );

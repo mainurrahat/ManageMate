@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
-const TaskList = ({ tasks, onEdit }) => {
+const TaskList = ({ tasks, onEdit, onDelete }) => {
   return (
     <div className="mt-10 px-4">
       <motion.div
@@ -88,7 +89,10 @@ const TaskList = ({ tasks, onEdit }) => {
                     >
                       Edit
                     </button>
-                    <button className="text-blue-600 hover:underline">
+                    <button
+                      onClick={() => onDelete(task)}
+                      className="text-blue-600 hover:underline"
+                    >
                       Delete
                     </button>
                   </td>
