@@ -153,5 +153,7 @@ npm run dev
 
 ❤️ Author
 
-Made by Mainur Islam Rahat
-React Developer | JavaScript | Tailwind CSS<img width="568" height="1160" alt="image" src="https://github.com/user-attachments/assets/32586021-deb9-4f4a-b5d4-def9c61bfc6e" />
+Made by
+Mainur Islam Rahat
+
+React Developer | JavaScript | Tailwind CSS 
