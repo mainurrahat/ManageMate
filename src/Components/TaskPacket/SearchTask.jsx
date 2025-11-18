@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 
-const SearchTask = () => {
+const SearchTask = ({ onSearch }) => {
   const [query, setQuery] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log("Searching:", query);
+    onSearch(query);
   };
 
   return (
@@ -32,6 +33,7 @@ const SearchTask = () => {
         {/* Search Button */}
         <button
           type="submit"
+          onClick={handleSearch}
           className="flex items-center gap-1 bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-900 transition"
         >
           <Search size={18} />

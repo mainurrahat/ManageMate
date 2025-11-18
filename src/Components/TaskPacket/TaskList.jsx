@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
-const TaskList = ({ tasks, onEdit, onDelete }) => {
+const TaskList = ({ tasks, onEdit, onDelete, onFav }) => {
   return (
     <div className="mt-10 px-4">
       <motion.div
@@ -42,7 +41,10 @@ const TaskList = ({ tasks, onEdit, onDelete }) => {
                   className="border-b hover:bg-gray-50 transition"
                 >
                   <td className="py-3 px-4">
-                    <button className="hover:scale-110 transition">
+                    <button
+                      onClick={()=>onFav(task.id)}
+                      className="hover:scale-110 transition"
+                    >
                       {task.isFavourite ? (
                         <Star
                           className="text-yellow-400 fill-yellow-400"

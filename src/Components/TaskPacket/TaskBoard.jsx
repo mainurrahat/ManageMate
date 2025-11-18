@@ -38,6 +38,23 @@ const TaskBoard = () => {
   const handleDeleteAllClick = () => {
     setTasks([]);
   };
+  const handleFavouriteTask = (taskId) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return { ...task, isFavourite: !task.isFavourite };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+  const handleSearch = (query) => {
+    console.log("Searching for tasks with query:", query);
+    // Implement search logic here
+    const filteredTasks = defaultTasks.filter((task) =>
+      task.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setTasks(...filteredTasks);
+  };
 
   const handleAddTask = (newTask, isAdd) => {
     if (isAdd) {
@@ -63,7 +80,7 @@ const TaskBoard = () => {
       )}
 
       <div className="p-2 flex justify-end">
-        <SearchTask />
+        <SearchTask onSearch={handleSearch} />
       </div>
 
       <div className="rounded-2xl border px-6 py-8 md:px-9 md:py-16">
@@ -75,6 +92,7 @@ const TaskBoard = () => {
           tasks={tasks}
           onEdit={handleEditTask}
           onDelete={handleDeleteTask}
+          onFav={handleFavouriteTask}
         />
       </div>
     </div>
