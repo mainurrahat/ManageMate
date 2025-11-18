@@ -1,4 +1,4 @@
-📌 Task Manager (React)
+# 📌 Task Manager (React)
 
 A simple and elegant Task Management Application built with React, featuring:
 
